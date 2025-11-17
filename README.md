@@ -1,15 +1,15 @@
-# Astro Photo – Automatic Detection of Light-Polluted Astrophotos
+# 🚀 Astro Photo – Automatic Detection of Light-Polluted Astrophotos
 
 **Astro Photo** is a lightweight, fast, and fully customizable Node.js tool that **automatically distinguishes high-quality starry sky images from light-polluted or cloudy ones**.
 
-Perfect for:
+🔭 Perfect for:
 - Preprocessing large astronomical datasets
 - Filtering out bad frames before photometry or asteroid detection
 - Automating pipelines in amateur and professional astronomy
 
 ---
 
-## Why This Tool?
+## 🌌 Why This Tool?
 
 On platforms like **[Zooniverse](https://www.zooniverse.org/)** (e.g., *Planet Hunters TESS*, *Asteroid Zoo*, *Backyard Worlds*), thousands of telescope images are processed daily by volunteers and algorithms.  
 Many are **unusable** due to:
@@ -22,7 +22,7 @@ Many are **unusable** due to:
 
 ---
 
-## How It Works
+## 🛰️ How It Works
 
 1. Reads raw pixel data (supports JPG, JPEG, PNG and others)
 2. Computes **luminance** for each pixel using ITU-R BT.709
@@ -46,7 +46,7 @@ Many are **unusable** due to:
 | `TOLERANCE` | Allowed deviation from background (as % of range) | `0.08` (8%) |
 | `DARK_THRESHOLD` | Min. % of dark pixels to classify as "clear" | `0.95` (95%) |
 
-> **Calibrate in 5 minutes using your own data!**
+> **👽 Calibrate in 5 minutes using your own data!**
 
 ```js
 // Example: for very dark skies
