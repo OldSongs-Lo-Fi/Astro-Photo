@@ -1,6 +1,6 @@
-# Sky Quality Detector – Automatic Detection of Light-Polluted Astrophotos
+# Astro Photo – Automatic Detection of Light-Polluted Astrophotos
 
-**Sky Quality Detector** is a lightweight, fast, and fully customizable Node.js tool that **automatically distinguishes high-quality starry sky images from light-polluted or cloudy ones**.
+**Astro Photo** is a lightweight, fast, and fully customizable Node.js tool that **automatically distinguishes high-quality starry sky images from light-polluted or cloudy ones**.
 
 Perfect for:
 - Preprocessing large astronomical datasets
