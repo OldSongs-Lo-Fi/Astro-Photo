@@ -24,7 +24,7 @@ Many are **unusable** due to:
 
 ## How It Works
 
-1. Reads raw pixel data (supports JPG, PNG, TIFF, FITS via `sharp`)
+1. Reads raw pixel data (supports JPG, JPEG, PNG and others)
 2. Computes **luminance** for each pixel using ITU-R BT.709
 3. Sorts all pixels by brightness
 4. Determines:
