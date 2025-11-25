@@ -2,6 +2,8 @@
 // DOWN_PERS = persentile of dark example
 // TOLERANCE = valid tolerance
 // DARK_THRESHOLD = value from 0 to 1, explains the percentage of dark on image
+const eventProcessor = require('./event_processor');
+const hough = require('./hough');
 
 const UPPER_PERS = 0.1;
 const DOWN_PERS = 5;
@@ -10,6 +12,7 @@ const DARK_THRESHOLD = 0.95;
 
 const sharp = require("sharp");
 const photoUtils = require("./photo_util");
+const {onBadImage} = require("./event_processor");
 
 async function determine(filepath){
     let image = sharp(filepath);
@@ -20,28 +23,43 @@ async function determine(filepath){
 
     const { width, height, channels } = info;
 
-    console.log("Processing: " + filepath);
+    console.log("\nProcessing: " + filepath);
     let dotsBright = getBrights(data, channels);
+    let dotsBrightSorted = getBrights(data, channels).sort();
 
-    let {darkTone, lightTone} = getTones(dotsBright);
+    let {darkTone, lightTone} = getTones(dotsBrightSorted);
 
     const toler = (lightTone - darkTone) * TOLERANCE;
 
     let darkDots = [];
 
-    for (let i = 0; i < dotsBright.length; i++){
-        if (dotsBright[i] < (darkTone + toler)){
-            darkDots.push(dotsBright[i]);
+    for (let i = 0; i < dotsBrightSorted.length; i++){
+        if (dotsBrightSorted[i] < (darkTone + toler)){
+            darkDots.push(dotsBrightSorted[i]);
         }
     }
 
-    if(darkDots.length > dotsBright.length * DARK_THRESHOLD){
-        console.log("CLEAR IMAGE");
+    if(darkDots.length < dotsBrightSorted.length * DARK_THRESHOLD){
+        eventProcessor.onBadImage("It was too bright!");
+        return;
     }
-    else {
-        console.log("BAD IMAGE");
+
+
+
+    // SECOND PART OF FILTRATION.
+    // SATELLITES CHECK
+
+    let result = hough.testImage(dotsBright, lightTone, toler, width, height);
+
+    if (result.founded){
+        eventProcessor.onBadImage("I found SATELLITE on a photo. The line is: " + JSON.stringify(result.line));
+        return;
     }
-    console.log();
+
+
+
+    eventProcessor.onGoodImage(`Image ${filepath} was good. I checked it!`)
+
 
 }
 
@@ -56,8 +74,6 @@ function getBrights(data, channels){
         dotsBright.push(photoUtils.getColorBrightness(red, green, blue));
     }
 
-    dotsBright.sort();
-
     return dotsBright;
 }
 
@@ -70,6 +86,10 @@ function getTones(dotsBright){
 
     return {darkTone, lightTone};
 }
+
+
 module.exports = {
-    determine
+    determine,
+    getTones,
+    TOLERANCE
 };
